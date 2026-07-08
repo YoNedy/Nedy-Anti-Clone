@@ -111,8 +111,6 @@ export function analyzeUsername(username: string): {
 export interface MemberProfile {
   username: string;
   hasAvatar: boolean;
-  /** null means the banner fetch failed — treat as unknown, do not score */
-  hasBanner: boolean | null;
   createdAt: Date;
 }
 
@@ -134,13 +132,6 @@ export function inspectMember(
     score += 3;
     reasons.push("no custom avatar (using default Discord avatar)");
   }
-
-  // --- Banner (only score when status is known) ---
-  if (profile.hasBanner === false) {
-    score += 1;
-    reasons.push("no profile banner");
-  }
-  // hasBanner === null → fetch failed, skip signal
 
   // --- Username patterns ---
   const usernameAnalysis = analyzeUsername(profile.username);

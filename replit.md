@@ -34,7 +34,6 @@ A Discord bot that automatically bans clone/bot accounts from your server when t
 | Account < 7 days old | +3 |
 | Account 7–30 days old | +2 |
 | Account 30–180 days old | +1 |
-| No profile banner | +1 |
 | Repeated character patterns in username | +1 |
 
 Score ≥ 5 → **ban**. Score ≥ 3 → **flag in log channel**.

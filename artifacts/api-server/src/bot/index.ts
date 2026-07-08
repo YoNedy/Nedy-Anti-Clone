@@ -68,20 +68,6 @@ function recordAction(record: ActionRecord) {
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-/**
- * Fetch the user's banner.
- * Returns true/false when known, or null if the fetch failed (so the caller
- * can skip the banner signal rather than producing a false positive).
- */
-async function fetchBanner(member: GuildMember): Promise<boolean | null> {
-  try {
-    const user = await member.user.fetch(true); // force=true fetches banner
-    return !!user.banner;
-  } catch {
-    return null; // unknown — do not score
-  }
-}
-
 async function sendLogEmbed(
   member: GuildMember,
   report: SuspicionReport,
@@ -176,15 +162,10 @@ export function createBot(): Client {
     try {
       stats.membersChecked++;
 
-      const hasBanner = await fetchBanner(member);
-
-      // Pass the same thresholds to inspectMember so the returned verdict
-      // always matches the action we take below
       const report = inspectMember(
         {
           username: member.user.username,
           hasAvatar: !!member.user.avatar,
-          hasBanner,
           createdAt: member.user.createdAt,
         },
         banThreshold,
